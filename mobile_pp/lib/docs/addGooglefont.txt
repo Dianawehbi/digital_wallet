@@ -1,0 +1,35 @@
+HOW TO ADD GOOGLE FONTS :
+------------------------
+
+1- Add the google_fonts package to your pubspec dependencies.
+    dependencies:
+    flutter:
+        sdk: flutter
+    google_fonts: ^4.0.0 # Use the latest version
+
+2- Import GoogleFonts.
+    import 'package:google_fonts/google_fonts.dart';
+
+3- Text styles #
+
+    Text(
+        'This is Google Fonts',
+        style: GoogleFonts.lato(),
+    ),
+    ------
+
+    Text(
+        'This is Google Fonts',
+        style: GoogleFonts.getFont(
+            'Lato',
+        ).copyWith(
+            fontSize: 24,           // Set font size
+            color: Colors.blue,     // Set font color
+            fontWeight: FontWeight.bold, // Set font weight
+            letterSpacing: 2.0,     // Add letter spacing
+            fontStyle: FontStyle.italic, // Italicize the font
+        ),
+    )
+
+
+Reference : https://pub.dev/packages/google_fonts#text-styles

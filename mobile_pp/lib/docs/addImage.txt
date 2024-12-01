@@ -1,0 +1,6 @@
+create folder assets/images
+then put inside it all image
+
+flutter:
+  assets:
+     - assets/images/immg.png
