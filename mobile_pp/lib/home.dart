@@ -15,7 +15,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   TextEditingController name_controller = TextEditingController();
   TextEditingController phone_controller = TextEditingController();
-  User user = users[1];
+  User user = User(0, 'Default', 0, []);
 
   bool check_user(String name, int phone_nb) {
     for (int i = 0; i < users.length; i++) {
@@ -30,8 +30,19 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    double screensize = MediaQuery.of(context).size.width;
+    double screenheight = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    refreshUser();
+                  });
+                },
+                icon: Icon(Icons.refresh))
+          ],
           title: MytextWidget(
             text: "Welcome",
             google_font: GoogleFonts.AbrilFatface,
@@ -41,15 +52,15 @@ class _HomeState extends State<Home> {
         body: Row(
           children: [
             SizedBox(
-              width: 25,
+              width: screensize * 0.05,
             ),
             Container(
-              width: 300,
-              height: 500,
+              width: screensize * 0.9,
+              height: screenheight * 0.85,
               child: Column(
                 children: [
                   SizedBox(
-                    height: 20,
+                    height: screenheight * 0.05,
                   ),
                   MytextWidget(
                     text: "Username:",
@@ -59,10 +70,10 @@ class _HomeState extends State<Home> {
                   MyTextField(
                     controller: name_controller,
                     hint: "name",
-                    width: 180,
+                    width: screensize * 0.5,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: screenheight * 0.05,
                   ),
                   MytextWidget(
                     text: "Phone Number:",
@@ -73,11 +84,12 @@ class _HomeState extends State<Home> {
                     controller: phone_controller,
                     hint: "number",
                     keyboardtype: TextInputType.number,
-                    width: 180,
+                    width: screensize * 0.5,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: screenheight * 0.05,
                   ),
+                  Text("${users.length}"),
                   ElevatedButton(
                       onPressed: () {
                         try {
@@ -112,6 +124,9 @@ class _HomeState extends State<Home> {
                     ),
               ),
             ),
+            SizedBox(
+              width: screensize * 0.05,
+            )
           ],
         ));
   }

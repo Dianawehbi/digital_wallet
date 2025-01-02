@@ -9,6 +9,7 @@ import '/statelesswidget/textwidget.dart';
 
 class Sent extends StatefulWidget {
   final User user;
+
   const Sent({super.key, required this.user});
 
   @override
@@ -18,7 +19,8 @@ class Sent extends StatefulWidget {
 class _SentState extends State<Sent> {
   TextEditingController controller_phone = TextEditingController();
   TextEditingController controller_amount = TextEditingController();
-  Coin? coin = coins['USd'];
+
+  Coin? coin = coins[0];
 
   void updateSelectedCoin(value) {
     setState(() {
@@ -39,7 +41,7 @@ class _SentState extends State<Sent> {
     List user_amount_list = widget.user.amount_list;
     for (int i = 0; i < user_amount_list.length; i++) {
       Amount aa = user_amount_list[i] as Amount;
-      if (aa.coin.name == coin?.name) {
+      if (aa.coin.ticker == coin?.ticker) {
         double available_amnount = aa.amount * 0.99;
         if (available_amnount >= amount) {
           return true;
@@ -51,6 +53,8 @@ class _SentState extends State<Sent> {
 
   @override
   Widget build(BuildContext context) {
+    double screensize = MediaQuery.of(context).size.width;
+    double screenheight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: MytextWidget(
@@ -62,11 +66,11 @@ class _SentState extends State<Sent> {
       body: Row(
         children: [
           SizedBox(
-            width: 25,
+            width: screensize * 0.05,
           ),
           Container(
-            height: 500,
-            width: 300,
+            height: screenheight * 0.8,
+            width: screensize * 0.9,
             child: Column(
               children: [
                 SizedBox(
@@ -96,7 +100,7 @@ class _SentState extends State<Sent> {
                 ),
                 MyDropdownMenu(
                   updateSelectedCoin: updateSelectedCoin,
-                  coin_map: coins,
+                  coins: coins,
                   width: 170,
                 ),
                 SizedBox(
@@ -145,7 +149,7 @@ class _SentState extends State<Sent> {
             ),
           ),
           SizedBox(
-            width: 15,
+            width: screensize * 0.05,
           ),
         ],
       ),

@@ -3,13 +3,13 @@ import 'package:mobile_pp/Coin/coin.dart';
 
 class MyDropdownMenu extends StatefulWidget {
   final double width;
-  final Map coin_map;
+  final List coins;
   final Function(Coin) updateSelectedCoin;
   const MyDropdownMenu({
     super.key,
     this.width = 300,
     required this.updateSelectedCoin,
-    required this.coin_map,
+    required this.coins,
   });
 
   @override
@@ -22,10 +22,10 @@ class _MyDropdownMenuState extends State<MyDropdownMenu> {
     return DropdownMenu(
       width: widget.width,
       // dropdownMenuEntries : should be list of drop down entries
-      dropdownMenuEntries: widget.coin_map.entries
-          .map((e) => DropdownMenuEntry(value: e.value, label: e.key))
+      dropdownMenuEntries: widget.coins
+          .map((e) => DropdownMenuEntry(value: e, label: e.ticker))
           .toList(),
-      initialSelection: widget.coin_map['USD'],
+      initialSelection: widget.coins[0],
       onSelected: (value) {
         widget.updateSelectedCoin(value);
       },

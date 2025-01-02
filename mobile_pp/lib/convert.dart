@@ -14,9 +14,9 @@ class CryptoConvert extends StatefulWidget {
 }
 
 class _CryptoConvertState extends State<CryptoConvert> {
-  Coin? coin1 = coins['USD'];
-  Coin? coin2 = coins['USD'];
-  CoinExchange c_ex = CoinExchange(coins['USD']!, coins['USD']!, 1);
+  Coin? coin1 = coins[0];
+  Coin? coin2 = coins[0];
+  CoinExchange c_ex = CoinExchange(coins[0], coins[0], 1);
   TextEditingController controller = TextEditingController();
 
   void setAmount(double amount) {
@@ -39,6 +39,8 @@ class _CryptoConvertState extends State<CryptoConvert> {
 
   @override
   Widget build(BuildContext context) {
+    double screensize = MediaQuery.of(context).size.width;
+    double screenheight = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
           title: MytextWidget(
@@ -50,18 +52,18 @@ class _CryptoConvertState extends State<CryptoConvert> {
         body: Row(
           children: [
             SizedBox(
-              width: 25,
+              width: screensize * 0.05,
             ),
             Container(
-              width: 300,
-              height: 500,
+              width: screensize * 0.9,
+              height: screenheight * 0.8,
               child: Column(
                 children: [
                   SizedBox(
                     height: 20,
                   ),
                   MyDropdownMenu(
-                    coin_map: coins,
+                    coins: coins,
                     width: 150,
                     updateSelectedCoin: updateSelectedCoin1,
                   ),
@@ -69,7 +71,7 @@ class _CryptoConvertState extends State<CryptoConvert> {
                     height: 20,
                   ),
                   MyDropdownMenu(
-                    coin_map: coins,
+                    coins: coins,
                     width: 150,
                     updateSelectedCoin: updateSelectedCoin2,
                   ),
@@ -95,7 +97,7 @@ class _CryptoConvertState extends State<CryptoConvert> {
                       }, //Text("Convert ${coin1?.name} to ${coin2?.name}")
                       child: MytextWidget(
                         text:
-                            "Convert ${coin1?.min_name} to ${coin2?.min_name}",
+                            "Convert ${coin1?.abbreviation} to ${coin2?.abbreviation}",
                         google_font: GoogleFonts.FiraSans,
                         size: 15,
                       )),
@@ -131,6 +133,9 @@ class _CryptoConvertState extends State<CryptoConvert> {
                     width: 2 // Border width
                     ),
               ),
+            ),
+            SizedBox(
+              width: screensize * 0.05,
             ),
           ],
         ));

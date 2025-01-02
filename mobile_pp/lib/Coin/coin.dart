@@ -1,27 +1,45 @@
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
 class Coin {
+  int id;
   double rate_usd;
-  String name;
-  String min_name;
+  String ticker;
+  String abbreviation;
 
   Coin(
+    this.id,
     this.rate_usd,
-    this.name,
-    this.min_name,
+    this.ticker,
+    this.abbreviation,
   );
 
   @override
   String toString() {
-    return "1 $min_name = $rate_usd USD";
+    return "1 $abbreviation = $rate_usd USD";
   }
 }
 
-var coins = <String, Coin>{
-  'USD': Coin(1, "USD", "USD"),
-  'Bitcoin': Coin(96185.8, "Bitcoin", "BTC"),
-  'Ethereum': Coin(3568.87, "Ethereum", "ETH"),
-  'Tether': Coin(1, "Tether", "USDT"),
-  'Solana': Coin(239.72, "Solana", "SOL"),
-  'Uniswap': Coin(12.77, "Uniswap", "UNI"),
-  'Dai': Coin(0.9999, "Dai", "DAI"),
-  'Usdc': Coin(0.9999, "Usdc", "USDC"),
-};
+List<Coin> coins = [];
+
+void refreshcoins() async {
+  try {
+    final url = Uri.http('192.168.1.13', 'mobile_php/mobile_project/coin.php');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      coins.clear();
+      final jsonresponse = convert.jsonDecode(response.body);
+
+      for (var row in jsonresponse) {
+        Coin coin = Coin(int.parse(row['id']), double.parse(row['rate_usd']),
+            row['ticker'], row['abbreviation']);
+        coins.add(coin);
+      }
+    } else {
+      print("error ");
+    }
+  } catch (e) {
+    print('Error $e');
+  }
+}

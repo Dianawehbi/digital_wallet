@@ -18,6 +18,6 @@ class CoinExchange {
   @override
   String toString() {
     exchange();
-    return "$amount ${coin1.name} = \n${exchange_coin.toStringAsFixed(7)} ${coin2.name} ";
+    return "$amount ${coin1.ticker} = \n${exchange_coin.toStringAsFixed(7)} ${coin2.ticker} ";
   }
 }

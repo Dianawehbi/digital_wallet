@@ -1,15 +1,16 @@
 import '/Coin/coin.dart';
 import '/User/Amount.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class User {
   int id;
   String name;
   int phoneNb;
-  int type; // 1: normal user   2: admin
   List amount_list = <Amount>[];
   double total_balance = 0;
 
-  User(this.id, this.type, this.name, this.phoneNb, this.amount_list);
+  User(this.id, this.name, this.phoneNb, this.amount_list);
 
   void totalbalance() {
     total_balance = 0;
@@ -21,20 +22,42 @@ class User {
   }
 }
 
-List<User> users = [
-  User(2, 1, "Rami", 710, [
-    Amount(coins['USD'] as Coin, 2000),
-    Amount(coins['Ethereum'] as Coin, 0.003),
-    Amount(coins['Uniswap'] as Coin, 90)
-  ]),
-  User(1, 1, "Diana", 719, [
-    Amount(coins['Bitcoin'] as Coin, 2.1),
-    Amount(coins['USD'] as Coin, 1000),
-  ]),
-  User(3, 2, "admin", 123456, [
-    Amount(coins['USD'] as Coin, 10000),
-    Amount(coins['Uniswap'] as Coin, 1),
-    Amount(coins['Bitcoin'] as Coin, 0.0001),
-    Amount(coins['Ethereum'] as Coin, 1.11),
-  ]),
-];
+List<User> users = [User(0, 'Default', 0, [])];
+
+void refreshUser() async {
+  try {
+    final url =
+        Uri.http('192.168.1.13', 'mobile_php/mobile_project/user_amount.php');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      print("User refresh");
+      final jsonresponse = convert.jsonDecode(response.body);
+      users.clear();
+      int _user_id = 1;
+      List<Amount> amounts = [];
+      for (var row in jsonresponse) {
+        int user_id = int.parse(row['user_id']);
+        if (_user_id != user_id) {
+          // new user
+          _user_id = user_id;
+          amounts.clear();
+        } else {
+          try {
+            users.removeAt(int.parse(row['user_id']) - 1);
+          } catch (e) {
+            print('error : $e');
+          }
+        }
+        Amount amount = Amount(
+            coins[int.parse(row['coin_id']) - 1], double.parse(row['amount']));
+        amounts.add(amount);
+        User u = User(int.parse(row['user_id']), row['name'],
+            int.parse(row['phone_number']), amounts);
+        users.insert(int.parse(row['user_id']) - 1, u);
+      }
+    }
+  } catch (e) {
+    print(e);
+  }
+}

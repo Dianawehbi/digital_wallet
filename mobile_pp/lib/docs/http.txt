@@ -1,0 +1,7 @@
+to find your ip address : 
+- ipconfig on cmd
+
+to install http :
+- flutter pub add http 
+- flutter pub get
+

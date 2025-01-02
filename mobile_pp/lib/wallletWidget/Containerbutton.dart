@@ -7,10 +7,11 @@ import '/statelesswidget/Font/google_fonts.dart';
 import '/statelesswidget/textwidget.dart';
 
 class MyButtonContainer extends StatefulWidget {
-  final double width = 300;
-  final double height = 70;
+  final double width;
+  final double height;
   final User user;
-  const MyButtonContainer({super.key, required this.user});
+  const MyButtonContainer(
+      {super.key, required this.user, this.width = 300, this.height = 80});
 
   @override
   State<MyButtonContainer> createState() => _MyButtonContainerState();
@@ -18,12 +19,17 @@ class MyButtonContainer extends StatefulWidget {
 
 class _MyButtonContainerState extends State<MyButtonContainer> {
   void sent_button() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Sent(user: widget.user,)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => Sent(
+              user: widget.user,
+            )));
   }
 
   void receive_button() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => Receive(user:  widget.user,)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => Receive(
+              user: widget.user,
+            )));
   }
 
   void exchange_button() {
@@ -36,35 +42,45 @@ class _MyButtonContainerState extends State<MyButtonContainer> {
     return Container(
       width: widget.width,
       height: widget.height,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Column(
         children: [
           SizedBox(
-            width: 10,
+            height: widget.height * 0.06,
           ),
-          MyButton_I_D(
-            text: "sent",
-            icon: Icon(Icons.send),
-            buttonFun: sent_button,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                width: 10,
+              ),
+              MyButton_I_D(
+                text: "sent",
+                icon: Icon(Icons.send),
+                buttonFun: sent_button,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              MyButton_I_D(
+                text: "receive",
+                icon: Icon(Icons.get_app),
+                buttonFun: receive_button,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              MyButton_I_D(
+                icon: Icon(Icons.currency_exchange),
+                text: "convert",
+                buttonFun: exchange_button,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+            ],
           ),
           SizedBox(
-            width: 20,
-          ),
-          MyButton_I_D(
-            text: "receive",
-            icon: Icon(Icons.get_app),
-            buttonFun: receive_button,
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          MyButton_I_D(
-            icon: Icon(Icons.currency_exchange),
-            text: "convert",
-            buttonFun: exchange_button,
-          ),
-          SizedBox(
-            width: 10,
+            height: widget.height * 0.02,
           ),
         ],
       ),

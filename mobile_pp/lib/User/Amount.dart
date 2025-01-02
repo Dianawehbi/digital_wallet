@@ -7,6 +7,6 @@ class Amount {
 
   @override
   String toString() {
-    return "${coin.name} : $amount";
+    return "${coin.ticker} : $amount";
   }
 }

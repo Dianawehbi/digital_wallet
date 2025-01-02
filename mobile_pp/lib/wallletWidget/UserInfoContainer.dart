@@ -27,6 +27,9 @@ class UserContainer extends StatelessWidget {
       width: this.width,
       height: this.height,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        SizedBox(
+          width: this.width * 0.02,
+        ),
         Column(
           children: [
             MytextWidget(
@@ -41,10 +44,13 @@ class UserContainer extends StatelessWidget {
             )
           ],
         ),
+        SizedBox(
+          width: this.width * 0.02,
+        ),
         Column(
           children: [
             MytextWidget(
-              text: "\n\nTotal Balance:  ",
+              text: "\nTotal Balance:  ",
               google_font: GoogleFonts.Lora,
               size: 18,
             ),
@@ -54,6 +60,9 @@ class UserContainer extends StatelessWidget {
               size: 20,
             )
           ],
+        ),
+        SizedBox(
+          width: this.width * 0.02,
         ),
       ]),
       decoration: BoxDecoration(
